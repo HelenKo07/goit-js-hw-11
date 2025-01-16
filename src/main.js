@@ -3,8 +3,8 @@ import 'izitoast/dist/css/iziToast.min.css';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-import { fetchPhotosByQuery } from './js/pixabay-api.js';
-import { createGalleryCardTemplate } from './js/render-functions.js';
+import { fetchPhotosByQuery } from './js/pixabay-api';
+import { createGalleryCardTemplate } from './js/render-functions';
 
 const formSearchCard = document.querySelector('.form-search');
 const listGalleryCard = document.querySelector('.gallery');
@@ -24,11 +24,11 @@ formSearchCard.addEventListener('submit', searchImg);
 function searchImg(event) {
   event.preventDefault();
 
-  let request = event.target.query.value.trim();
+  let query = event.target.query.value.trim();
 
-  listGalleryCard.innerHTML = ' ';
+  listGalleryCard.innerHTML = '';
 
-  if (!request) {
+  if (!query) {
     iziToast.show({
       backgroundColor: '#ef4040',
       message: `Please fill in the field to search for data!`,
@@ -43,9 +43,9 @@ function searchImg(event) {
     return;
   }
 
-  loaderStyle.style.displey = 'flex';
+  loaderStyle.style.displey = 'inline-block';
 
-  fetchPhotosByQuery(request)
+  fetchPhotosByQuery(query)
     .then(data => {
       console.log(data);
       console.log(data.hits.length);
@@ -65,7 +65,7 @@ function searchImg(event) {
           position: 'topRight',
         });
       }
-      listGalleryCard.insertAdjacentElement(
+      listGalleryCard.insertAdjacentHTML(
         'beforeend',
         createGalleryCardTemplate(data.hits)
       );
