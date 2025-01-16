@@ -10,7 +10,7 @@ const formSearchCard = document.querySelector('.form-search');
 const listGalleryCard = document.querySelector('.gallery');
 const loaderStyle = document.querySelector('.loader');
 
-loaderStyle.style.displey = 'none';
+loaderStyle.style.display = 'none';
 
 const lightboxModalWindow = new SimpleLightbox('.gallery a', {
   captions: true,
@@ -43,7 +43,7 @@ function searchImg(event) {
     return;
   }
 
-  loaderStyle.style.displey = 'inline-block';
+  loaderStyle.style.display = 'inline-block';
 
   fetchPhotosByQuery(query)
     .then(data => {
@@ -70,10 +70,12 @@ function searchImg(event) {
         createGalleryCardTemplate(data.hits)
       );
       lightboxModalWindow.refresh();
-      loaderStyle.style.displey = 'none';
     })
     .catch(error => {
       console.log(error.message);
     })
-    .finally(() => event.target.reset());
+    .finally(() => {
+      loaderStyle.style.display = 'none'
+    });
+    event.target.reset();
 }
